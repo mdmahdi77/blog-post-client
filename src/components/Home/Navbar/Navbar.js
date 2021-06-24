@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../../App';
 
 const Navbar = () => {
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext)
+    const [isAdmin, setIsAdmin] = useState(false)
+
+    useEffect(() => {
+        fetch('http://localhost:7000/isAdmin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: loggedInUser.email})
+        })
+        .then(response => response.json())
+        .then(data => setIsAdmin(data))
+    },[])
+    
     return (
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -16,14 +33,17 @@ const Navbar = () => {
                                 <Link class="nav-link active" to="/home" href="#">Home</Link>
                             </li>
                             <li class="nav-item">
+                                <Link class="nav-link" to="/login">Login</Link>
+                            </li>
+                            { isAdmin && <div><li class="nav-item">
                                 <Link class="nav-link" to="/blog">Blog</Link>
                             </li>
                             <li class="nav-item">
                                 <Link class="nav-link" to="/editPost">Edit-Post</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</Link>
-                            </li>
+                                <Link class="nav-link" to="/makeAdmin">Make-admin</Link>
+                            </li> </div> }
                         </ul>
                     </div>
                 </div>
