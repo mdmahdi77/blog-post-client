@@ -1,0 +1,12 @@
+.blogs-area ul li{
+    color: black;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.blogs-area ul .nav-link{
+    color: black;
+}
+.blogs-area ul .active{
+    color: red;
+}

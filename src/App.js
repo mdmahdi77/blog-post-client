@@ -12,6 +12,10 @@ import MakeAdmin from "./components/admin/makeAdmin/MakeAdmin";
 import Home from "./components/Home/Home/Home";
 import Navbar from "./components/Home/Navbar/Navbar";
 import Login from "./components/Login/Login/Login";
+import Admin from "./components/admin/Admin";
+import PrivateRoute from "./components/Login/Login/PrivateRoute";
+import { ToastContainer, toast } from 'react-toastify';
+import AdminNav from "./components/admin/AdminNav";
 
 export const UserContext = createContext()
 
@@ -20,17 +24,19 @@ function App() {
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <Router>
-        <h1>{loggedInUser.email}</h1>
+      <ToastContainer />
         <Switch>
           <Route path="/home">
             <Home />
           </Route>
           <Route path="/blog">
             <Navbar />
+            <Admin />
             <AddBlogPost />
           </Route>
           <Route path="/editPost">
             <Navbar />
+            <Admin />
             <EditPost />
           </Route>
           <Route path="/login">
@@ -39,8 +45,13 @@ function App() {
           </Route>
           <Route path="/makeAdmin">
             <Navbar />
+            <Admin />
             <MakeAdmin />
           </Route>
+          <PrivateRoute path="/admin">
+            <Navbar />
+            <Admin />
+          </PrivateRoute>
           <Route path="/blogDetails/:blogId">
             <Navbar />
             <BlogDetails />

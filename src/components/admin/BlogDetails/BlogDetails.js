@@ -17,10 +17,10 @@ const BlogDetails = () => {
     console.log(blogDetails)
 
     return (
-        <div>
+        <div className="container my-5">
             <img src={blogDetails?.img} width="100%" height="400px" alt="" />
-            <h3>{blogDetails?.title}</h3>
-            <p>{blogDetails?.content}</p>
+            <h3 className="text-success my-5">{blogDetails?.title}</h3>
+            <p className="text-lead">{blogDetails?.content}</p>
         </div>
     );
 };

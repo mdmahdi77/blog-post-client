@@ -5,6 +5,9 @@ import "firebase/auth";
 import firebaseConfig from './firebase.config';
 import { useContext } from 'react';
 import { UserContext } from '../../../App';
+import { useHistory, useLocation } from 'react-router-dom';
+import google from '../../../img/google.png'
+import './Login.css'
 
 const Login = () => {
     if (!firebase.apps.length) {
@@ -14,6 +17,10 @@ const Login = () => {
     }
 
     const [loggedInUser, setLoggedInUser] = useContext(UserContext)
+
+    let history = useHistory();
+    let location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
 
     const [newUser, setNewUser] = useState(false)
     const [user, setUser] = useState({
@@ -43,6 +50,7 @@ const Login = () => {
                 console.log(signInUser)
                 setUser(signInUser)
                 setLoggedInUser(signInUser)
+                history.replace(from);
             }).catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -102,6 +110,7 @@ const Login = () => {
                     setUser(newUserInfo)
                     setLoggedInUser(newUserInfo)
                     updatedUserName(user.name)
+                    history.replace(from);
                     console.log('sign in user info', res.user)
                 })
                 .catch((error) => {
@@ -144,29 +153,50 @@ const Login = () => {
             console.log(error)
         });
     }
+
     return (
-        <div>
-            <h1>login page</h1>
-            {
-                user.isSignIn ?
-                    <button onClick={handleSignOut}>Sign Out</button> :
-                    <button onClick={handleGoogleSign}>Google Sign In</button>
-            }
-            <br />
-            <br />
-            <input type="checkbox" name="newUser" onChange={() => setNewUser(!newUser)} />
-            <label htmlFor="newUser">New User Sign Up</label>
-            <form onSubmit={handleSubmit}>
-                {newUser && <input type="text" name="name" onBlur={handleBlur} placeholder="Your Name" />}
-                <br />
-                <input type="text" name="email" onBlur={handleBlur} placeholder="Your Email Address" required />
-                <br />
-                <input type="password" name="password" onBlur={handleBlur} placeholder="Your Password" required />
-                <br />
-                <input type="submit" value={newUser ? 'Sign Up' : 'Sign In'} />
-            </form>
-            <p style={{ color: 'red' }}>{user.error}</p>
-            {user.success && <p style={{ color: 'green' }}>user {newUser ? "created" : "logged in"} successfully</p>}
+        <div className="container my-5 text-center">
+            <div className="row">
+                <div className="col-lg-6 offset-lg-3">
+                    <h1 className="my-5 ">Log In To Your Account</h1>
+                    <input type="checkbox" name="newUser" onChange={() => setNewUser(!newUser)} />
+                    <label htmlFor="newUser"><span className="text-info fw-bold mx-3">New User Sign Up</span></label>
+                    <br />
+                    <br />
+                    <form className="" onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            {newUser && <input className="form-control" type="text" name="name" onBlur={handleBlur} placeholder="Your Name" />}
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <input className="form-control" type="text" name="email" onBlur={handleBlur} placeholder="Your Email Address" required />
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <input className="form-control" type="password" name="password" onBlur={handleBlur} placeholder="Your Password" required />
+                        </div>
+                        <br />
+                        <input className="form-control bg-success text-light fw-bold" type="submit" value={newUser ? 'Sign Up' : 'Sign In'} />
+                    </form>
+                    <p style={{ color: 'red' }}>{user.error}</p>
+                    {user.success && <p style={{ color: 'green' }}>User {newUser ? "created" : "logged in"} successfully</p>}
+                    <br />
+                    <h2 className="text-secondary">OR</h2>
+
+                    <div className="google my-5">
+                        <div className="google-logo">
+                            <img src={google} alt="" />
+                        </div>
+                        <div className="google-sign">
+                            {
+                                user.isSignIn ?
+                                    <button onClick={handleSignOut}>Sign Out</button> :
+                                    <button onClick={handleGoogleSign}>Sign In Google</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
