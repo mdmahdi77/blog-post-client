@@ -10,7 +10,7 @@ const Blogs = () => {
     const [blogs, setBlogs] = useState([])
     const [selected, setSelected] = useState("bangladesh")
     const [offset, setOffset] = useState(0);
-    const [perPage] = useState(4);
+    const [perPage] = useState(5);
     const [pageCount, setPageCount] = useState(0)
 
     useEffect(() => {
