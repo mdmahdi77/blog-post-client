@@ -10,6 +10,9 @@ Very organized and single web page application.
  Admin can post any as your wish.
  Admin can delete any blog post.
  Admin also can make new admin.
+ Spinner Loadding.
+ React Pagination.
+ Users read post details.
 
 ### The technologies that have been used like
 
