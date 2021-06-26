@@ -3,36 +3,32 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import BlogItem from '../BlogItem/BlogItem';
 import './Blogs.css'
-import ReactPaginate from 'react-paginate';
-import axios from 'axios';
+import Paginator from 'react-hooks-paginator';
+
 
 const Blogs = () => {
+    const pageLimit = 4;
+    const [offset, setOffset] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const [blogs, setBlogs] = useState([])
+    const [currentData, setCurrentData] = useState([]);
     const [selected, setSelected] = useState("bangladesh")
-    // const [offset, setOffset] = useState(0);
-    // const [perPage] = useState(4);
-    // const [pageCount, setPageCount] = useState(0)
 
     useEffect(() => {
         fetch('https://infinite-escarpment-78018.herokuapp.com/blogs')
             .then(res => res.json())
             .then(data => {
                 setBlogs(data)
-                // setPageCount(Math.ceil(data.length / perPage))
             })
-    }, [blogs.length])
+    }, [])
 
     const selectedBlogs = blogs.filter(blog => blog.category === selected)
     console.log(selectedBlogs)
 
-    // const slice = blogs.slice(offset, offset + perPage)
-    // const selectedBlogs = slice.filter(blog => blog.category === selected)
-    // console.log(selectedBlogs)
+    useEffect(() => {
+        setCurrentData(selectedBlogs.slice(offset, offset + pageLimit));
+    }, [offset, selectedBlogs]);
 
-    // const handlePageClick = (e) => {
-    //     const selectedPage = e.selected;
-    //     setOffset(selectedPage + 1)
-    // };
 
     return (
         <div className="blogs-area">
@@ -102,24 +98,19 @@ const Blogs = () => {
                         <div className="container-fluid">
                             <div className="row">
                                 {
-                                    selectedBlogs.length === 0 && <div className="col-md-12 m-auto my-5 spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+                                    currentData.length === 0 && <div className="col-md-12 m-auto my-5 spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
                                 }
                                 {
-                                    selectedBlogs.map(select => <BlogItem key={select._id} select={select} />)
+                                    currentData.map(select => <BlogItem key={select._id} select={select} />)
                                 }
-                                
-                                {/* <ReactPaginate
-                                    previousLabel={"prev"}
-                                    nextLabel={"next"}
-                                    breakLabel={"..."}
-                                    breakClassName={"break-me"}
-                                    pageCount={pageCount}
-                                    marginPagesDisplayed={2}
-                                    pageRangeDisplayed={5}
-                                    onPageChange={handlePageClick}
-                                    containerClassName={"pagination"}
-                                    subContainerClassName={"pages pagination"}
-                                    activeClassName={"active"} /> */}
+                                <Paginator
+                                    totalRecords={selectedBlogs.length}
+                                    pageLimit={pageLimit}
+                                    pageNeighbours={2}
+                                    setOffset={setOffset}
+                                    currentPage={currentPage}
+                                    setCurrentPage={setCurrentPage}
+                                />
                             </div>
                         </div>
                     </div>
