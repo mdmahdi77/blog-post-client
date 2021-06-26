@@ -3,13 +3,14 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import BlogItem from '../BlogItem/BlogItem';
 import './Blogs.css'
+import ReactPaginate from 'react-paginate';
 
 const Blogs = () => {
     const [blogs, setBlogs] = useState([])
-    const  [selected, setSelected] = useState("bangladesh")
+    const [selected, setSelected] = useState("bangladesh")
 
     useEffect(() => {
-        fetch('http://localhost:7000/blogs')
+        fetch('https://infinite-escarpment-78018.herokuapp.com/blogs')
             .then(res => res.json())
             .then(data => setBlogs(data))
     }, [blogs.length])
@@ -17,13 +18,27 @@ const Blogs = () => {
     const selectedBlogs = blogs.filter(blog => blog.category === selected)
     console.log(selectedBlogs)
 
+    // const [pageNumber, setPageNumber] = useState(0)
+
+    // const userPerPage = 2
+    // const pagesVisited = pageNumber * userPerPage
+
+    // const displayUsers = selectedBlogs.slice(pagesVisited, pagesVisited + userPerPage).map(select => <BlogItem key={select._id} select={select} />)
+
+    // const pageCount = Math.ceil(selectedBlogs.length)
+
+    // const changePage = (select) => {
+    //     setPageNumber(select)
+    // }
+
     return (
         <div className="blogs-area">
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-4">
-                        <nav>
-                            <ul className="list-unstyled list-inline my-5">
+                        <h3 className="text-center my-5 text-success">Blogs Categories</h3>
+                        <div>
+                            <ul className="list-unstyled list-inline my-5 container-fluid">
                                 <li onClick={() => setSelected("bangladesh")} className="list-inline-item">
                                     <span className={selected === "bangladesh" ? "active nav-link" : "nav-link"}>Bangladesh</span>
                                 </li>
@@ -58,20 +73,56 @@ const Blogs = () => {
                                     <span className={selected === "other" ? "active nav-link" : "nav-link"}>Others</span>
                                 </li>
                             </ul>
-                        </nav>
+                        </div>
+                        <div className="my-5 mx-3 bg-light p-3">
+                            <h4 className="text-success my-3">GET WEEKLY TIPS AND INSPIRATION</h4>
+                            <p className="my-4">Sign up below to get the latest from Creative Bloq, plus exclusive special offers, direct to your inbox!</p>
+                            <form action="">
+                                <div className="form-group my-4">
+                                    <input className="form-control" type="email" placeholder="Enter Your Email Address" />
+                                </div>
+                                <div className="d-flex my-2">
+                                    <input className="mt-2 mx-3" type="checkbox" id="check" />
+                                    <label htmlFor="check">Contact me with news and offers from other Future brands</label>
+                                </div>
+                                <div className="d-flex my-2">
+                                    <input className="mt-2 mx-3" type="checkbox" id="check" />
+                                    <label htmlFor="check">Receive email from us on behalf of our trusted partners or sponsors</label>
+                                </div>
+                                <div className="form-group my-5">
+                                    <input className="form-control bg-warning text-light fw-bolder" type="button" value="Sign Up" />
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div className="col-md-8">
                         <div className="container-fluid">
                             <div className="row">
                                 {
-                                    selectedBlogs.map(select => <BlogItem key={select._id} select={select} />)
+                                    selectedBlogs.length === 0 && <div className="col-md-12 m-auto my-5 spinner-border text-primary"             role="status"><span class="visually-hidden">Loading...</span></div>
                                 }
-                            </div>
+                            {
+                                selectedBlogs.map(select => <BlogItem key={select._id} select={select} />)
+                            }
+                            {/* {displayUsers}
+
+                            <ReactPaginate 
+                                previousLabel={"Previous"}
+                                nextLabel={"Next"}
+                                pageCount={pageCount}
+                                onPageChange={changePage}
+                                containerClassName={"paginationBttns"}
+                                previousLinkClassName={"previousBttn"}
+                                nextLinkClassName={"nextBttn"}
+                                disabledClassName={"paginationDisabled"}
+                                activeClassName={"paginationActive"}
+                            /> */}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </div >
     );
 };
 

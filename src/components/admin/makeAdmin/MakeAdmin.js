@@ -11,7 +11,7 @@ const MakeAdmin = () => {
         }
         console.log(eventData)
 
-        const uri = `http://localhost:7000/addAdmin`
+        const uri = `https://infinite-escarpment-78018.herokuapp.com/addAdmin`
         fetch(uri, {
             method: 'POST',
             headers: {

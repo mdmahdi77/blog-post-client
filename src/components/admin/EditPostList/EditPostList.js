@@ -5,14 +5,13 @@ const EditPostList = (props) => {
     const { title, _id, category } = props.blog
 
     const deleteBlogPost = (id, e) => {
-        fetch(`http://localhost:7000/delete/${id}`, {
+        fetch(`https://infinite-escarpment-78018.herokuapp.com/delete/${id}`, {
             method: 'DELETE',
         })
             .then(res => res.json())
             .then(result => {
                 if(result){
                     alert("Deleted Successfully")
-                    props.getBlog()
                 }
                 e.preventDefault()
             })
@@ -26,7 +25,9 @@ const EditPostList = (props) => {
                             <td className="text-dark fw-bolder">{props.index + 1}.</td>
                             <td className="text-primary">{title}</td>
                         </div>
-                        <td className="text-info">Category: ({category})</td>
+                        <div className="">
+                            <td className="text-info">Category: ({category})</td>
+                        </div>
                         <div className="updateDelete">
                             <td>
                                 <button className="btn btn-danger btn-rounded" onClick={() => deleteBlogPost(_id)}>Delete</button>

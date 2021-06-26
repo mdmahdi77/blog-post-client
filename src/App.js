@@ -16,6 +16,7 @@ import Admin from "./components/admin/Admin";
 import PrivateRoute from "./components/Login/Login/PrivateRoute";
 import { ToastContainer, toast } from 'react-toastify';
 import AdminNav from "./components/admin/AdminNav";
+import Footer from "./components/Footer/Footer";
 
 export const UserContext = createContext()
 
@@ -28,6 +29,7 @@ function App() {
         <Switch>
           <Route path="/home">
             <Home />
+            <Footer />
           </Route>
           <Route path="/blog">
             <Navbar />
@@ -55,9 +57,11 @@ function App() {
           <Route path="/blogDetails/:blogId">
             <Navbar />
             <BlogDetails />
+            <Footer />
           </Route>
           <Route path="/">
             <Home />
+            <Footer />
           </Route>
         </Switch>
       </Router>

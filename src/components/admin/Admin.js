@@ -8,7 +8,7 @@ const Admin = () => {
     const [isAdmin, setIsAdmin] = useState(false)
 
     useEffect(() => {
-        fetch('http://localhost:7000/isAdmin', {
+        fetch('https://infinite-escarpment-78018.herokuapp.com/isAdmin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

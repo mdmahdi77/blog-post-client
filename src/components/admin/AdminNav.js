@@ -15,7 +15,7 @@ const AdminNav = (props) => {
                     <Link class="nav-link" to="/makeAdmin">Make-admin</Link>
                 </li>
             </ul> :
-            <h1>This page only admin</h1>
+            <h1 className="text-center my-5 py-5">This page only admin User</h1>
             }
         </div>
     );

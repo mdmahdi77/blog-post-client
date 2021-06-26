@@ -18,7 +18,7 @@ const AddBlogPost = () => {
         }
         console.log(eventData)
 
-        const uri = `http://localhost:7000/addBlog`
+        const uri = `https://infinite-escarpment-78018.herokuapp.com/addBlog`
 
         fetch(uri, {
             method: 'POST',
