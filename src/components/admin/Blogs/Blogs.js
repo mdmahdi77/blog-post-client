@@ -9,30 +9,30 @@ import axios from 'axios';
 const Blogs = () => {
     const [blogs, setBlogs] = useState([])
     const [selected, setSelected] = useState("bangladesh")
-    const [offset, setOffset] = useState(0);
-    const [perPage] = useState(5);
-    const [pageCount, setPageCount] = useState(0)
+    // const [offset, setOffset] = useState(0);
+    // const [perPage] = useState(4);
+    // const [pageCount, setPageCount] = useState(0)
 
     useEffect(() => {
         fetch('https://infinite-escarpment-78018.herokuapp.com/blogs')
             .then(res => res.json())
             .then(data => {
                 setBlogs(data)
-                setPageCount(Math.ceil(data.length / perPage))
+                // setPageCount(Math.ceil(data.length / perPage))
             })
     }, [blogs.length])
 
-    // const selectedBlogs = blogs.filter(blog => blog.category === selected)
-    // console.log(selectedBlogs)
-
-    const slice = blogs.slice(offset, offset + perPage)
-    const selectedBlogs = slice.filter(blog => blog.category === selected)
+    const selectedBlogs = blogs.filter(blog => blog.category === selected)
     console.log(selectedBlogs)
 
-    const handlePageClick = (e) => {
-        const selectedPage = e.selected;
-        setOffset(selectedPage + 1)
-    };
+    // const slice = blogs.slice(offset, offset + perPage)
+    // const selectedBlogs = slice.filter(blog => blog.category === selected)
+    // console.log(selectedBlogs)
+
+    // const handlePageClick = (e) => {
+    //     const selectedPage = e.selected;
+    //     setOffset(selectedPage + 1)
+    // };
 
     return (
         <div className="blogs-area">
@@ -108,7 +108,7 @@ const Blogs = () => {
                                     selectedBlogs.map(select => <BlogItem key={select._id} select={select} />)
                                 }
                                 
-                                <ReactPaginate
+                                {/* <ReactPaginate
                                     previousLabel={"prev"}
                                     nextLabel={"next"}
                                     breakLabel={"..."}
@@ -119,7 +119,7 @@ const Blogs = () => {
                                     onPageChange={handlePageClick}
                                     containerClassName={"pagination"}
                                     subContainerClassName={"pages pagination"}
-                                    activeClassName={"active"} />
+                                    activeClassName={"active"} /> */}
                             </div>
                         </div>
                     </div>
