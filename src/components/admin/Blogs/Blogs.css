@@ -10,14 +10,14 @@
 .blogs-area ul .active{
     color: red;
 }
-.paginationBttns{
+.pagination{
     width: 80%;
     height: 40px;
     list-style: none;
     display: flex;
     justify-content: center;
 }
-.paginationBttns a{
+.pagination a{
     padding: 10px;
     margin: 8px;
     border-radius: 5px;
@@ -25,7 +25,7 @@
     color: blue;
     cursor: pointer;
 }
-.paginationBttns a:hover{
+.pagination a:hover{
     color: white;
     background-color: blue;
 }

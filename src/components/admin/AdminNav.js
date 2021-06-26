@@ -6,7 +6,7 @@ const AdminNav = (props) => {
         <div>
            { props.admin ? <ul className="list-unstyled list-inline my-5">
                 <li className="list-inline-item text-success fw-bolder">
-                    <Link class="nav-link" to="/blog">Blog</Link>
+                    <Link class="nav-link" to="/blog">Add-Blog-Post</Link>
                 </li>
                 <li className="list-inline-item text-success fw-bolder">
                     <Link class="nav-link" to="/editPost">Edit-Post</Link>

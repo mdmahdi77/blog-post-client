@@ -4,32 +4,35 @@ import { useState } from 'react';
 import BlogItem from '../BlogItem/BlogItem';
 import './Blogs.css'
 import ReactPaginate from 'react-paginate';
+import axios from 'axios';
 
 const Blogs = () => {
     const [blogs, setBlogs] = useState([])
     const [selected, setSelected] = useState("bangladesh")
+    const [offset, setOffset] = useState(0);
+    const [perPage] = useState(4);
+    const [pageCount, setPageCount] = useState(0)
 
     useEffect(() => {
         fetch('https://infinite-escarpment-78018.herokuapp.com/blogs')
             .then(res => res.json())
-            .then(data => setBlogs(data))
+            .then(data => {
+                setBlogs(data)
+                setPageCount(Math.ceil(data.length / perPage))
+            })
     }, [blogs.length])
 
-    const selectedBlogs = blogs.filter(blog => blog.category === selected)
+    // const selectedBlogs = blogs.filter(blog => blog.category === selected)
+    // console.log(selectedBlogs)
+
+    const slice = blogs.slice(offset, offset + perPage)
+    const selectedBlogs = slice.filter(blog => blog.category === selected)
     console.log(selectedBlogs)
 
-    // const [pageNumber, setPageNumber] = useState(0)
-
-    // const userPerPage = 2
-    // const pagesVisited = pageNumber * userPerPage
-
-    // const displayUsers = selectedBlogs.slice(pagesVisited, pagesVisited + userPerPage).map(select => <BlogItem key={select._id} select={select} />)
-
-    // const pageCount = Math.ceil(selectedBlogs.length)
-
-    // const changePage = (select) => {
-    //     setPageNumber(select)
-    // }
+    const handlePageClick = (e) => {
+        const selectedPage = e.selected;
+        setOffset(selectedPage + 1)
+    };
 
     return (
         <div className="blogs-area">
@@ -99,29 +102,29 @@ const Blogs = () => {
                         <div className="container-fluid">
                             <div className="row">
                                 {
-                                    selectedBlogs.length === 0 && <div className="col-md-12 m-auto my-5 spinner-border text-primary"             role="status"><span class="visually-hidden">Loading...</span></div>
+                                    selectedBlogs.length === 0 && <div className="col-md-12 m-auto my-5 spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
                                 }
-                            {
-                                selectedBlogs.map(select => <BlogItem key={select._id} select={select} />)
-                            }
-                            {/* {displayUsers}
-
-                            <ReactPaginate 
-                                previousLabel={"Previous"}
-                                nextLabel={"Next"}
-                                pageCount={pageCount}
-                                onPageChange={changePage}
-                                containerClassName={"paginationBttns"}
-                                previousLinkClassName={"previousBttn"}
-                                nextLinkClassName={"nextBttn"}
-                                disabledClassName={"paginationDisabled"}
-                                activeClassName={"paginationActive"}
-                            /> */}
+                                {
+                                    selectedBlogs.map(select => <BlogItem key={select._id} select={select} />)
+                                }
+                                
+                                <ReactPaginate
+                                    previousLabel={"prev"}
+                                    nextLabel={"next"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={pageCount}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={5}
+                                    onPageChange={handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"} />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div >
     );
 };
